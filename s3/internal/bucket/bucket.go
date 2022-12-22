@@ -11,41 +11,60 @@ import (
 func Bucket(client cloud.BucketClient) {
 	ctx := context.Background()
 
+	// Create bucket
 	if err := create(ctx, client); err != nil {
 		logrus.Printf("creating bucket error : %v", err)
 	} else {
 		logrus.Println("bucket created")
 	}
 
+	// Upload file
 	url, err := uploadObject(ctx, client)
 	if err != nil {
-		logrus.Printf("uploading file error : %v", err)
+		logrus.Printf("error uploading file: %v", err)
 	} else {
 		logrus.Printf("file uploaded: %s", url)
 	}
 
+	// Download file
 	if err = downloadObject(ctx, client); err != nil {
-		logrus.Printf("downloading file error: %v", err)
+		logrus.Printf("error downloading file: %v", err)
 	} else {
 		logrus.Println("file downloaded")
 	}
 
+	// Delete file
 	if err = deleteObject(ctx, client); err != nil {
-		logrus.Printf("deleted file error: %v", err)
+		logrus.Printf("error deleting file: %v", err)
 	} else {
 		logrus.Println("file deleted")
 	}
 
 	list, err := listObjects(ctx, client)
 	if err != nil {
-		logrus.Println("getting list error: %v", list)
+		logrus.Printf("error getting list: %v", list)
 	} else {
 		logrus.Printf("objects list: %v", list)
+	}
+
+	// Remove bucket
+	if err = Delete(ctx, client); err != nil {
+		logrus.Printf("error deleting bucket: %v", err)
+	} else {
+		logrus.Println("bucket deleted")
 	}
 }
 
 func create(ctx context.Context, client cloud.BucketClient) error {
 	if err := client.Create(ctx, "aws-test"); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Delete(ctx context.Context, client cloud.BucketClient) error {
+	if err := client.Delete(ctx, "aws-test"); err != nil {
 		return err
 	}
 

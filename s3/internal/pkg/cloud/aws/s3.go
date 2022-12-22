@@ -133,3 +133,18 @@ func (s S3) FetchObject(ctx context.Context, bucket, fileName string) (io.ReadCl
 
 	return res.Body, nil
 }
+
+func (s S3) Delete(ctx context.Context, bucket string) error {
+	ctx, cancel := context.WithTimeout(ctx, s.timeout)
+	defer cancel()
+
+	_, err := s.client.DeleteBucketWithContext(ctx, &s3.DeleteBucketInput{
+		Bucket: aws.String(bucket),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
