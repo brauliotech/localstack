@@ -23,7 +23,7 @@ func init() {
 func InitConfig() {
 	viper.SetDefault("Address", "http://localhost:4566")
 	viper.SetDefault("region", "us-east-1")
-	viper.SetDefault("Profiele", "dev")
+	viper.SetDefault("Profiele", "localstack")
 	viper.SetDefault("ID", "test")
 	viper.SetDefault("Secret", "test")
 
