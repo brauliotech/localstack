@@ -26,6 +26,13 @@ func Bucket(client cloud.BucketClient) {
 		logrus.Printf("file uploaded: %s", url)
 	}
 
+	list, err := listObjects(ctx, client)
+	if err != nil {
+		logrus.Printf("error getting list: %v", list)
+	} else {
+		logrus.Printf("objects list: %v", list)
+	}
+
 	// Download file
 	if err = downloadObject(ctx, client); err != nil {
 		logrus.Printf("error downloading file: %v", err)
@@ -38,13 +45,6 @@ func Bucket(client cloud.BucketClient) {
 		logrus.Printf("error deleting file: %v", err)
 	} else {
 		logrus.Println("file deleted")
-	}
-
-	list, err := listObjects(ctx, client)
-	if err != nil {
-		logrus.Printf("error getting list: %v", list)
-	} else {
-		logrus.Printf("objects list: %v", list)
 	}
 
 	// Remove bucket
