@@ -41,3 +41,18 @@ $ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/ex
 
 ## S3
 * [Example](/s3/)
+
+## CloudWatch
+
+Cloudwatch supervises and monitors AWS resources in real-time, it can add or centralize metrics in the same place, 
+also send alerts and notify us when any of our services has exceeded a limit that previously was configured.
+
+Note: LocalStack currently supports metric-alarm evaluation with statistic and comparison-operator.
+
+### What services I can monitor with cloudwatch?
+  - Computing services
+  - Database services (Aurora, DynamoDB, etc)
+  - Volumes EBS and EFS (Disk I/O)
+  - Load Balancers (type request)
+  - Billing
+  - Containers like EKS & ECS
